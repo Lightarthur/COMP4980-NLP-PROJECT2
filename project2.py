@@ -30,8 +30,9 @@ def file_input(message):
             return file_input('Enter an existing file path: ')
 
 
+# edited trivialTokenizer to NOT divide words like 'don't' into two separate tokens
 def trivialTokenizer(text):
-    pattern = re.compile(r"\d+|Mr\.|Mrs\.|Dr\.|\b[A-Z]\.|[a-zA-Z_]+-[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+|--|'s|'t|'d|'ll|'m|'re|'ve|[.,:!?;\"'()\[\]&@#-]")
+    pattern = re.compile(r"\d+|Mr\.|Mrs\.|Dr\.|\b[A-Z]\.|[a-zA-Z_]+-[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+|--|'s|'d|'ll|'m|'re|'ve|[.,:!?;\"'()\[\]&@#-]")
     return(re.findall(pattern, text))
 
 
@@ -56,6 +57,7 @@ def main():
     # main loop for extracting unigrams, bigrams and trigrams from each sentence
     for sent in sentences:
         text_unigrams = sent_list = trivialTokenizer(sent)
+        #text_unigrams = sent_list = nltk.tokenize.word_tokenize(sent)
         text_bigrams = list(bigrams(sent_list))
         text_trigrams = list(ngrams(sent_list,3))
 
