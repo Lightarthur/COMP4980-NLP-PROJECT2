@@ -69,9 +69,28 @@ def main():
         
     print ("Welcome to our second project created by Iurii Shamkin & Chris Kwiatkowski\nThe theme of the project is emotion analysis")
 
+
+    emotion_name = {1: 'anger', 2: 'anticipation', 3: 'disgust', 4: 'fear', 5: 'joy', 6: 'sadness', 7: 'surprise', 8: 'trust'}
+    emotion_lexicon = {};  # 'word' => [emotion_type] where emotion_type is int in [1,8]
+
+    emotion_lexicon_files = [(1, 'anger.txt'), 
+                             (2, 'anticipation.txt'), 
+                             (3, 'disgust.txt'), 
+                             (4, 'fear.txt'),
+                             (5, 'joy.txt'), 
+                             (6, 'sadness.txt'), 
+                             (7, 'surprise.txt'), 
+                             (8, 'trust.txt')]
+    for (emotion, lex_file) in emotion_lexicon_files:
+        for word in open(lex_file).read().split('\n'):
+            if (word == ''): continue
+            if (emotion_lexicon.get(word) == None):
+                emotion_lexicon[word] = []
+            emotion_lexicon[word].append(emotion)
+            
     # reading text filename/path from user
     user_path_1 = file_input('\nEnter a filename or folder path to a first text: ')
-    
+
     # omitting reading second text and comparing for now
     # user_path_2 = file_input('\nEnter a filename or folder path to a second text: ')
 
