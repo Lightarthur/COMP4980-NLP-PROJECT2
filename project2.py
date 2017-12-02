@@ -151,22 +151,69 @@ def main():
             if trigram[2] in emotion_lexicon:
                 emotion_types = emotion_lexicon[trigram[2]]
                 for e in emotion_types:
-
+                    word_1 = ''
                     if trigram[0] in NEGATIONS_SET:
-                        if trigram[1] in STOP_WORDS:
-                            print('neg x e', trigram)
+                        word_1 = 'n'
+                    elif trigram[0] in INTENSIFIER_DICT:
+                        word_1 = 'i'
+                    elif trigram[0] in STOP_WORDS:
+                        word_1 = 'x'
 
-                        # print(trigram)
+                    word_2 = ''
+                    if trigram[1] in NEGATIONS_SET:
+                        word_2 = 'n'
+                    elif trigram[1] in INTENSIFIER_DICT:
+                        word_2 = 'i'
+                    elif trigram[1] in STOP_WORDS:
+                        word_2 = 'x'
+
+                    # if (word_1 == 'n' or word_1 == 'i') and word_2 in ['n','i','x']:
+                           
+
+                    if word_1 == 'n' and word_2 == 'x':
                         (unnegated_count, negated_count) = emotion_count[e]
                         emotion_count[e] = (unnegated_count - 1, negated_count + 1)
+                        # print('n x e: ', trigram, '0, 1')
 
-                    elif trigram[0] in INTENSIFIER_DICT:
-                        if trigram[1] in STOP_WORDS:
-                            print('int x e', trigram)
-
+                    if word_1 == 'i' and word_2 == 'x':
                         multiplier = INTENSIFIER_DICT[trigram[0]]
                         (unnegated_count, negated_count) = emotion_count[e]
                         emotion_count[e] = (unnegated_count - 1 + multiplier, negated_count)
+                        # print('i x e: ', trigram, multiplier, ', 0')
+
+                    if word_1 == 'n' and word_2 == 'n':
+                        (unnegated_count, negated_count) = emotion_count[e]
+                        emotion_count[e] = (unnegated_count + 1, negated_count - 1)
+                        # print('n n e: ', trigram, '1, 0')
+
+                    if word_1 == 'i' and word_2 == 'n':
+                        # word_2 already seen in bigram
+                        multiplier = INTENSIFIER_DICT[trigram[0]]
+                        (unnegated_count, negated_count) = emotion_count[e]
+                        emotion_count[e] = (unnegated_count, negated_count - 1 + multiplier)
+                        # print('i n e: ', trigram, '0,', multiplier)
+
+                    if word_1 == 'n' and word_2 == 'i':
+                        # word_2 already seen in bigram (unnegated)
+                        multiplier = INTENSIFIER_DICT[trigram[1]]
+                        (unnegated_count, negated_count) = emotion_count[e]
+                        emotion_count[e] = (unnegated_count - multiplier, negated_count + multiplier)
+                        # print('n i e: ', trigram, '0,', multiplier)
+                        # print(word_1, word_2, trigram) 
+                        # pass
+
+                    if word_1 == 'i' and word_2 == 'i':
+                        multiplier_1 = INTENSIFIER_DICT[trigram[0]]
+                        multiplier_2 = INTENSIFIER_DICT[trigram[1]]
+
+                        new_multiplier = multiplier_1 * (multiplier_2 - 1) + 1
+
+                        (unnegated_count, negated_count) = emotion_count[e]
+                        emotion_count[e] = (unnegated_count - multiplier_2 + new_multiplier, negated_count)
+                        # print(word_1, word_2, trigram)
+                        print('i i e: ', trigram, new_multiplier, ', 0')
+                        # pass
+
 
         # print(text_unigrams)
         # print(text_bigrams)
