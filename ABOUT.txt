@@ -98,21 +98,24 @@ Deintensifier + stop word + emotion:   84
 ----------------------
 
 
-In a long run, novelistic oeuvre of two different authors tend to be quite
-similar. It was proven by running solution over complete collections of Charles Dickens 
-and George Eliot novels. 
+In a long run, novelistic oeuvre of all three different authors tend to be quite
+similar. It was proven by running solution over complete collections of Charles 
+Dickens, George Eliot and Elizabeth Gaskell novels. 
 
-Elizabeth Gaskell has slightly more use of 'anticipation' expressions and very slightly of 'sadness'.
+Elizabeth Gaskell has slightly more use of 'anticipation' expressions and very 
+slightly of 'sadness'.
 Charles Dickens has slightly more use of 'trust' expressions.
 George Eliot has very slightly more use of 'anger' expressions.
 
-Charles Dickens has sightly more positive emotion expressions compared to Elizabeth Gaskell and George Eliot.
+Charles Dickens has sightly more positive emotion expressions compared to Elizabeth 
+Gaskell and George Eliot.
 
-All negated emotions appear to have roughly equal distribution. In the grouping by positive/neutral/negative,
-the negated negative is larger than positive/neutral since the negative category has 4 emotions vs 2.
-Interestingly, this is not the same for the unnegated emotions. The 4 negative emotions have a roughly
-equal proportion as the 2 positive emotions. This could be because the lexicon used for the positive emotions
-of trust/joy are broad enough to capture the same number of words as fear, disgust, sadness, anger combined.
+All negated emotions appear to have roughly equal distribution. In the grouping by positive/neutral/negative, the negated negative is larger than positive/neutral since
+the negative category has 4 emotions vs 2.
+Interestingly, this is not the same for the unnegated emotions. The 4 negative emotions
+have a roughly equal proportion as the 2 positive emotions. This could be because the 
+lexicon used for the positive emotions of trust/joy are broad enough to capture the 
+same number of words as fear, disgust, sadness, anger combined.
 
 Stats for charles_dickens_collection.txt:
 Total weighted sum: 459645.5
