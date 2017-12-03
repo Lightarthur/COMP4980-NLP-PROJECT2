@@ -21,6 +21,12 @@ from nltk import bigrams
 from nltk import FreqDist
 from nltk.collocations import ngrams
 
+
+# This is a subset of stop words from ntlk which an intensifier or negation can not be applied to.
+# For example, 'without a word'. When the 2nd token in such a trigram is not one of the words
+# in this list, we do not guess that the intensifier applies to the third word but to the second word.
+# For example, in 'not because good' the negation applies to because instead of good. However, in a
+# trigram like 'not a good', the negation does apply to 'good'.
 STOP_WORDS = {'has', 'into', 'theirs', 'its', 
               'being', 'from', 'have', 'were', 'at', 'with', 'my', 'about', 
               'should', 'did', 'for', 'her', 'their', 'does', 'up', 'had',
@@ -140,26 +146,26 @@ def main():
         for sent in sentences:
             sent_count += 1
             text_unigrams = sent_list = trivialTokenizer(sent)
-            # print(sent_list)
-            token_count += len(text_unigrams)
-            #text_unigrams = sent_list = nltk.tokenize.word_tokenize(sent)
+            
+            token_count += len(text_unigrams)  # Get a total count of number of tokens in the text.
+            
             text_bigrams = list(bigrams(sent_list))
             text_trigrams = list(ngrams(sent_list,3))
 
             
             for unigram in text_unigrams:
-                if unigram in emotion_lexicon:
-                    expression_count['total'] += 1
+                if unigram in emotion_lexicon:      
                     expression_count['unigram'] += 1
                     example_expressions['unigram'].append(unigram)
 
                     emotion_types = emotion_lexicon[unigram]
-
                     for e in emotion_types:
-                        # if emotion_name[e] == 'sadness':
-                        #     print(unigram)
                         (unnegated_count, negated_count) = emotion_count[e]
                         emotion_count[e] = (unnegated_count + 1, negated_count)
+
+
+            # Save the current count of number of tokens that are in the emotion lexicon.
+            expression_count['total'] = expression_count['unigram']
 
 
             for bigram in text_bigrams:
@@ -167,8 +173,7 @@ def main():
                     emotion_types = emotion_lexicon[bigram[1]]
 
                     if bigram[0] in NEGATIONS_SET:
-                        # print(bigram)
-                        expression_count['unigram'] -= 1
+                        expression_count['unigram'] -= 1  # Subtract from unigram since it was counted previously as unigram
                         expression_count['n'] += 1
                         example_expressions['n'].append(' '.join(bigram))
 
@@ -177,7 +182,7 @@ def main():
                             emotion_count[e] = (unnegated_count - 1, negated_count + 1)
 
                     elif bigram[0] in INTENSIFIER_DICT:
-                        expression_count['unigram'] -= 1
+                        expression_count['unigram'] -= 1  # Subtract from unigram since it was counted previously as unigram
                         
                         multiplier = INTENSIFIER_DICT[bigram[0]]
 
@@ -185,6 +190,7 @@ def main():
                             expression_count['i'] += 1
                             example_expressions['i'].append(' '.join(bigram))
                         else:
+                            # Count deintensifiers separately from intensifiers
                             expression_count['di'] += 1
                             example_expressions['di'].append(' '.join(bigram))
 
@@ -213,11 +219,7 @@ def main():
                         word_2 = 'x'
 
 
-                    # if (word_1 == 'n' or word_1 == 'i') and word_2 in ['n','i','x']:
-                           
-
                     if word_1 == 'n' and word_2 == 'x':
-
                         expression_count[('n', 'x')] += 1
                         example_expressions[('n', 'x')].append(' '.join(trigram))
                         expression_count['unigram'] -= 1
@@ -225,7 +227,6 @@ def main():
                         for e in emotion_types:
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count - 1, negated_count + 1)
-                        # print('n x e: ', trigram, '0, 1')
 
                     if word_1 == 'i' and word_2 == 'x':
                         expression_count['unigram'] -= 1
@@ -235,17 +236,17 @@ def main():
                             expression_count[('i', 'x')] += 1
                             example_expressions[('i', 'x')].append(' '.join(trigram))
 
-
                         else:
                             expression_count[('di', 'x')] += 1
                             example_expressions[('di', 'x')].append(' '.join(trigram))
 
 
-
                         for e in emotion_types:
+                            # Subtract the previously counted unnegated unigram, then add the weighted value.
+                            # The bigram was not counted since the second word is not a negation nor intensifier.
+                            # so the unigram count was not adjusted in the bigram loop.
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count - 1 + multiplier, negated_count)
-                        # print('i x e: ', trigram, multiplier, ', 0')
 
                     if word_1 == 'n' and word_2 == 'n':
                         expression_count[('n', 'n')] += 1
@@ -254,12 +255,11 @@ def main():
                         expression_count['n'] -= 1
 
                         for e in emotion_types:
+                            # Subtract the previous negated count as bigram.
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count + 1, negated_count - 1)
-                        # print('n n e: ', trigram, '1, 0')
 
                     if word_1 == 'i' and word_2 == 'n':
-                        # word_2 already seen in bigram
                         expression_count['n'] -= 1
 
                         multiplier = INTENSIFIER_DICT[trigram[0]]
@@ -272,16 +272,11 @@ def main():
                             expression_count[('di', 'n')] += 1
                             example_expressions[('di', 'n')].append(' '.join(trigram))
 
-
                         for e in emotion_types:
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count, negated_count - 1 + multiplier)
-                        # print('i n e: ', trigram, '0,', multiplier)
 
                     if word_1 == 'n' and word_2 == 'i':
-                        # word_2 already seen in bigram (unnegated)
-                        # expression_count[('n', 'i')] += 1
-
                         expression_count['i'] -= 1
 
                         multiplier = INTENSIFIER_DICT[trigram[1]]
@@ -295,11 +290,9 @@ def main():
 
 
                         for e in emotion_types:
+                            # Undo the previous count as a bigram with an intensifier, so subtract multiplier.
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count - multiplier, negated_count + multiplier)
-                        # print('n i e: ', trigram, '0,', multiplier)
-                        # print(word_1, word_2, trigram) 
-                        # pass
 
                     if word_1 == 'i' and word_2 == 'i':
                         expression_count['i'] -= 1
@@ -313,20 +306,17 @@ def main():
                         expression_count[(type_1, type_2)] += 1
                         example_expressions[(type_1, type_2)].append(' '.join(trigram))
 
+                        # Since a multiplier of 1 is considered neutral, we need to determine the 
+                        # 'direction' of the intensifier, then multiply by the first intensifier
+                        # to get the new 'distance' for the second intensifier (the first intensifier affects
+                        # the second intensifier not the emotion word). The new 'vector' is then changed back
+                        # to where 1 is neutral.
                         new_multiplier = multiplier_1 * (multiplier_2 - 1) + 1
 
                         for e in emotion_types:
+                            # Undo the previous count by subtracting the original multiplier.
                             (unnegated_count, negated_count) = emotion_count[e]
                             emotion_count[e] = (unnegated_count - multiplier_2 + new_multiplier, negated_count)
-                        # print(word_1, word_2, trigram)
-                        # print('i i e: ', trigram, new_multiplier, ', 0')
-                        # pass
-
-
-            # print(text_unigrams)
-            # print(text_bigrams)
-            # print(text_trigrams)
-            # input()
 
         print('-----------------------------------------------------------------------------')
         print('Summary for', 
@@ -344,18 +334,10 @@ def main():
         def get_examples(type, num=2):
             freq = FreqDist(example_expressions[type])
             most_common = freq.most_common(num)
-            # if len(most_common) == 1:
-            #     (word_1, word_1_c) = most_common[0]
-            #     return '{} ({})'.format(word_1, word_1_c)
-            # if len(most_common) > 1:
-                # (word_1, word_1_c) = most_common[0]
-                # (word_2, word_2_c) = most_common[1]
             strings = []
             for (word, word_c) in most_common:
                 strings.append('{} ({})'.format(word, word_c))
             return ', '.join(strings)
-                # return '{} ({}), {} ({})'.format(word_1, word_1_c, word_2, word_2_c)
-            # return ''
 
         print('Total emotion expressions:', expression_count['total'])
         print('')
@@ -365,9 +347,6 @@ def main():
         print('')
 
         print('Bigram total count:', expression_count['n'] + expression_count['i'] + expression_count['di'])
-        # print('Negation \t+ emotion:', expression_count['n'])
-        # print('Intensifier \t+ emotion:', expression_count['i'])
-        # print('Deintensifier \t+ emotion:', expression_count['di'])
         print('Negation      + emotion: {:5.0f}\t{:}'.format(expression_count['n'], get_examples('n', 3)))
         print('Intensifier   + emotion: {:5.0f}\t{:}'.format(expression_count['i'], get_examples('i', 3)))
         print('Deintensifier + emotion: {:5.0f}\t{:}'.format(expression_count['di'], get_examples('di', 3)))
@@ -378,7 +357,6 @@ def main():
             trigram_total += expression_count[k]
 
         print('Trigram total count:', trigram_total)
-
         
         print('Negation      + stop word     + emotion: {:4.0f}\t {:}'.format(expression_count[('n', 'x')], get_examples(('n', 'x'))))
         print('Negation      + negation      + emotion: {:4.0f}\t {:}'.format(expression_count[('n', 'n')], get_examples(('n', 'n'))))
@@ -414,7 +392,6 @@ def main():
             percentage_dict[k] = (v[0]/total*100, v[1]/total*100)
             print("{:12} ({:.0f}): {:.1f}% \t not {:12} ({:.0f}): {:.1f}%".format(emotion_name[k], v[0], v[0]/total*100, emotion_name[k], v[1], v[1]/total*100))
 
-
         print('')
 
         print('Emotion percentages grouped by positive/neutral/negative')
@@ -440,11 +417,6 @@ def main():
         print("{:12} ({:.0f}): {:.1f}% \t negated {:12} ({:.0f}): {:.1f}%".format("neutral", neutral_total[0], neutral_total[0]/total*100, "neutral", neutral_total[1], neutral_total[1]/total*100))
         print("{:12} ({:.0f}): {:.1f}% \t negated {:12} ({:.0f}): {:.1f}%".format("negative", neg_total[0], neg_total[0]/total*100, "negative", neg_total[1], neg_total[1]/total*100))
 
-        # {1: 'anger', 2: 'anticipation', 3: 'disgust', 4: 'fear', 5: 'joy', 6: 'sadness', 7: 'surprise', 8: 'trust'}
-
-        # for (k,v) in emotion_count.items():
-            # print("{:12} ({:.0f}): {:.1f}% \t not {:12} ({:.0f}): {:.1f}%".format(emotion_name[k], v[0], v[0]/total*100, emotion_name[k], v[1], v[1]/total*100))
-
         return percentage_dict
 
     percentage_dict_1 = eval_text(user_path_1)
@@ -468,14 +440,11 @@ def main():
             emotions_1.append((unnegated_1 - unnegated_2, '\t{:} (+{:.2f}%)'.format(emotion_name[e], unnegated_1 - unnegated_2)))
         elif unnegated_1 < unnegated_2:
             emotions_2.append((unnegated_2 - unnegated_1, '\t{:} (+{:.2f}%)'.format(emotion_name[e], unnegated_2 - unnegated_1)))
-            # emotions_2.append(emotion_name[e] + '(+' + str(unnegated_2 - unnegated_1) + '%)')
 
         if negated_1 > negated_2:
             emotions_1.append((negated_1 - negated_2, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e], negated_1 - negated_2)))
-            # emotions_1.append('"not ' + emotion_name[e] + '"' + '(+' + str(negated_1 - negated_2) + '%)')
         elif negated_1 < negated_2:
             emotions_1.append((negated_2 - negated_1, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e], negated_2 - negated_1)))
-            # emotions_2.append('"not ' + emotion_name[e] + '"' + '(+' + str(negated_2 - negated_1) + '%)')
 
     print('-----------------------------------------------------------------------------')
     print('Comparison of {} and {}'.format(user_path_1, user_path_2))
@@ -492,4 +461,3 @@ def main():
     print('')
 
 main()
-
