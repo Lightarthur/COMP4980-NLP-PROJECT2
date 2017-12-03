@@ -9,10 +9,7 @@
 # Iurii Shamkin     (T00036016)     #
 #####################################
 
-'''
-List of negations and intensifiers are borrowed from https://github.com/cjhutto/vaderSentiment
-List of stopwords are taken from NLTK itself
-'''
+# List of negations and intensifiers are borrowed from https://github.com/cjhutto/vaderSentiment
 
 import os
 import re
@@ -20,7 +17,6 @@ import nltk
 from nltk import bigrams
 from nltk import FreqDist
 from nltk.collocations import ngrams
-
 
 # This is a subset of stop words from ntlk which an intensifier or negation can not be applied to.
 # For example, 'without a word'. When the 2nd token in such a trigram is not one of the words
@@ -38,7 +34,6 @@ STOP_WORDS = {'has', 'into', 'theirs', 'its',
               'this', 'any', 'the', 'myself', 'ourselves', 'itself', 'that', 'on', 'ours', 
               'just', 'having', 'are', 'our', 'as', 'they', 'to', 
               'these', 'both', 'be', 'them', 'yourselves', 'a'}
-
 
 NEGATIONS_SET = \
 {"couldn't", 'nope', "wouldn't", 'hasnt', 'never', "daren't", 'nowhere', 'rarely', "wasn't", 'without', 'neither', 'wouldnt', 'darent', "mustn't", "won't", "haven't", 'arent', 'havent', 'didnt', 'dont', 'wont', 'doesnt', 'couldnt', 'shouldnt', "shouldn't", "shan't", 'wasnt', "aren't", "mightn't", 'cannot', 'werent', 'hadnt', "don't", "weren't", 'not', 'isnt', "hasn't", 'none', "doesn't", "didn't", 'oughtnt', 'shant', 'aint', "needn't", 'uhuh', "oughtn't", "ain't", 'cant', 'despite', 'seldom', 'mightnt', 'neednt', 'uh-uh', 'mustnt', 'nor', "hadn't", "isn't", "can't", 'nothing'}
@@ -76,20 +71,16 @@ def file_input(message):
         else:
             return file_input('Enter an existing file path: ')
 
-
 # edited trivialTokenizer to NOT divide words like 'don't' into two separate tokens
 def trivialTokenizer(text):
-    # pattern = re.compile(r"\d+|Mr\.|Mrs\.|Dr\.|\b[A-Z]\.|[a-zA-Z_]+-[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+|--|'s|'t|'d|'ll|'m|'re|'ve|[.,:!?;\"()\[\]&@#-]")
     pattern = re.compile(r"\d+|Mr\.|Mrs\.|Dr\.|\b[A-Z]\.|[a-zA-Z_]+-[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+-[a-zA-Z_]+|[a-zA-Z_]+'t|[a-zA-Z_]+|--|'s|'d|'ll|'m|'re|'ve|[.,:!?;\"()\[\]&@#-]")
     return(re.findall(pattern, text))
-
 
 def main():
     # clear the screen
     os.system('clear')
 
     print ("Welcome to our second project created by Iurii Shamkin & Chris Kwiatkowski\nThe theme of the project is emotion analysis")
-
 
     emotion_name = {1: 'anger', 2: 'anticipation', 3: 'disgust', 4: 'fear', 5: 'joy', 6: 'sadness', 7: 'surprise', 8: 'trust'}
     emotion_lexicon = {};  # 'word' => [emotion_type] where emotion_type is int in [1,8]
@@ -102,6 +93,7 @@ def main():
                              (6, 'sadness.txt'), 
                              (7, 'surprise.txt'), 
                              (8, 'trust.txt')]
+
     for (emotion, lex_file) in emotion_lexicon_files:
         for word in open(lex_file).read().split('\n'):
             if (word == ''): continue
@@ -118,7 +110,6 @@ def main():
     print ("\nProcessing files...")
 
     def eval_text(path):
-
         # reading file while replacing new lines and tokenizing into separate sentences
         file = open(path).read().replace('\n', ' ')
         file = file.lower()
@@ -152,7 +143,6 @@ def main():
             text_bigrams = list(bigrams(sent_list))
             text_trigrams = list(ngrams(sent_list,3))
 
-            
             for unigram in text_unigrams:
                 if unigram in emotion_lexicon:      
                     expression_count['unigram'] += 1
@@ -163,10 +153,8 @@ def main():
                         (unnegated_count, negated_count) = emotion_count[e]
                         emotion_count[e] = (unnegated_count + 1, negated_count)
 
-
             # Save the current count of number of tokens that are in the emotion lexicon.
             expression_count['total'] = expression_count['unigram']
-
 
             for bigram in text_bigrams:
                 if bigram[1] in emotion_lexicon:
@@ -218,7 +206,6 @@ def main():
                     elif trigram[1] in STOP_WORDS:
                         word_2 = 'x'
 
-
                     if word_1 == 'n' and word_2 == 'x':
                         expression_count[('n', 'x')] += 1
                         example_expressions[('n', 'x')].append(' '.join(trigram))
@@ -239,7 +226,6 @@ def main():
                         else:
                             expression_count[('di', 'x')] += 1
                             example_expressions[('di', 'x')].append(' '.join(trigram))
-
 
                         for e in emotion_types:
                             # Subtract the previously counted unnegated unigram, then add the weighted value.
@@ -319,8 +305,7 @@ def main():
                             emotion_count[e] = (unnegated_count - multiplier_2 + new_multiplier, negated_count)
 
         print('-----------------------------------------------------------------------------')
-        print('Summary for', 
-        path)
+        print('Summary for', path)
         print('')
         print('Sentence count:', sent_count)
         print('Total number of tokens:', token_count)
@@ -397,17 +382,19 @@ def main():
         print('Emotion percentages grouped by positive/neutral/negative')
         print('')
 
-        # Positive
+        # positive side
         pos_total = (0,0)
         for k in [5,8]:
             (i, j) = emotion_count[k]
             pos_total = (pos_total[0] + i, pos_total[1] + j)
 
+        # neutral side
         neutral_total = (0,0)
         for k in [2,7]:
             (i, j) = emotion_count[k]
             neutral_total = (neutral_total[0] + i, neutral_total[1] + j)
 
+        # negative side
         neg_total = (0,0)
         for k in [1,3,4,6]:
             (i, j) = emotion_count[k]
