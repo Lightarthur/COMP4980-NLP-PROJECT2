@@ -11,7 +11,7 @@
 
 '''
 List of negations and intensifiers are borrowed from https://github.com/cjhutto/vaderSentiment
-
+List of stopwords are taken from NLTK itself
 '''
 
 import os
@@ -488,6 +488,8 @@ def main():
     if (len(emotions_2) > 0):
         print(str_2)
         print('\n'.join(map(lambda x: x[1], sorted(emotions_2, reverse=True))))
+
+    print('')
 
 main()
 
