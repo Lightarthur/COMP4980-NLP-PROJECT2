@@ -1,0 +1,155 @@
+#####################################
+# COMP4980-04 "Introduction to NLP" #
+# Dr. Stan Szpakowicz               #
+# Thompson Rivers University        #
+# Fall 2017                         #
+#                                   #
+# Project 2                         #
+# Chris Kwiatkowski (T00050075)     #
+# Iurii Shamkin     (T00036016)     #
+#####################################
+
+
+### HOW TO RUN ###
+
+IMPORTANT: text files for all 8 emotions should be located in the same folder as 
+python script itself.
+
+1) Run project2.py file
+2) Enter first text name/path on promt and hit Enter
+3) Enter second text name/path on promt and hit Enter
+4) Hit Enter to continue to second text's analysis
+5) Hit Enter to continue to comparison of both texts
+
+
+### OBSERVATIONS ###
+
+    - counting pharases like "little boy" and "young girl" 
+Giving provided emotional lexicon, counting of phrases like "little boy" and 
+"young girl" occured. This phrases are rahter X than emotional phrases
+
+
+    - intensifiers are much more popular than deintensifiers
+One of the findings suggests that generally intensifiers are much more common 
+within text than deintensifiers
+
+charles_dickens_collection:
+Intensifier   + emotion:  8007
+Deintensifier + emotion:  1794
+Negation      + intensifier   + emotion:  243
+Negation      + deintensifier + emotion:    9 
+Intensifier   + intensifier   + emotion:  184
+Deintensifier + deintensifier + emotion:   22
+
+george_eliot_collection:
+Intensifier   + emotion:  3337
+Deintensifier + emotion:   859
+Negation      + intensifier   + emotion:  125
+Negation      + deintensifier + emotion:    9
+Intensifier   + intensifier   + emotion:   67 
+Deintensifier + deintensifier + emotion:    6
+
+elizabeth_gaskell_collection:
+Intensifier   + emotion:  3808
+Deintensifier + emotion:   898
+Negation      + intensifier   + emotion:  134
+Negation      + deintensifier + emotion:    2
+Intensifier   + intensifier   + emotion:   60
+Deintensifier + deintensifier + emotion:    3
+
+
+    - taking into account subset of stopwords within trigrams
+Important adjustment was to accomodate having stopword in the middle of the 
+trigram. In this case we've covered having articles or prepositions, for example,
+in our emotional phrases, which turned out to make up more than half of all 
+trigrams. However, list of stopwords has been narrowed down to exclude any occuring
+ones within emotional lexicon. 
+
+charles_dickens_collection:
+Trigram total count: 3393
+Negation      + stop word + emotion: 1615
+Intensifier   + stop word + emotion: 1048
+Deintensifier + stop word + emotion:  129 
+
+george_eliot_collection:
+Trigram total count: 1659
+Negation      + stop word + emotion:  933
+Intensifier   + stop word + emotion:  362 
+Deintensifier + stop word + emotion:   79
+
+elizabeth_gaskell_collection:
+Trigram total count: 1495
+Negation      + stop word + emotion:  670
+Intensifier   + stop word + emotion:  498
+Deintensifier + stop word + emotion:   84 
+
+
+    - comparing the whole novelistic oeuvre of two authors
+In a long run, novelistic oeuvre of two different authors are tend to be quite
+similar. It was proven by running solution over complete collections of Charles Dickens and George
+Eliot novels.
+
+Comparison of charles_dickens_collection.txt and george_eliot_collection.txt:
+The text charles_dickens_collection.txt is more:
+        trust (+1.75%)
+        surprise (+0.19%)
+        "not trust" (+0.12%)
+        "not joy" (+0.12%)
+        "not anticipation" (+0.09%)
+        disgust (+0.09%)
+        "not surprise" (+0.05%)
+        joy (+0.04%)
+        "not fear" (+0.03%)
+        "not anger" (+0.02%)
+        "not sadness" (+0.01%)
+        "not disgust" (+0.00%)
+
+The text george_eliot_collection.txt is more:
+        anger (+1.06%)
+        sadness (+0.42%)
+        fear (+0.10%)
+        anticipation (+0.07%)
+
+
+Comparison of charles_dickens_collection.txt and elizabeth_gaskell_collection.txt
+The text charles_dickens_collection.txt is more:
+        trust (+1.66%)
+        surprise (+0.67%)
+        disgust (+0.46%)
+        fear (+0.35%)
+        "not trust" (+0.06%)
+        "not anticipation" (+0.06%)
+        "not joy" (+0.06%)
+        "not sadness" (+0.05%)
+        "not disgust" (+0.02%)
+        "not surprise" (+0.01%)
+        "not fear" (+0.01%)
+        "not anger" (+0.01%)
+
+The text elizabeth_gaskell_collection.txt is more:
+        anticipation (+1.47%)
+        sadness (+1.16%)
+        anger (+0.28%)
+        joy (+0.12%)
+
+
+Comparison of george_eliot_collection.txt and elizabeth_gaskell_collection.txt
+The text george_eliot_collection.txt is more:
+        anger (+0.78%)
+        surprise (+0.48%)
+        fear (+0.45%)
+        disgust (+0.37%)
+        "not joy" (+0.06%)
+        "not trust" (+0.06%)
+        "not surprise" (+0.04%)
+        "not fear" (+0.04%)
+        "not sadness" (+0.04%)
+        "not anticipation" (+0.03%)
+        "not anger" (+0.02%)
+        "not disgust" (+0.02%)
+
+The text elizabeth_gaskell_collection.txt is more:
+        anticipation (+1.40%)
+        sadness (+0.74%)
+        joy (+0.15%)
+        trust (+0.08%)
