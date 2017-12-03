@@ -25,7 +25,7 @@ python script itself.
 ### OBSERVATIONS ###
 
 Because some intensifier words have multiple meanings, it is not completely accurate
-to always count them as being an intensifier. A common example would be the phrase 
+to always count them as being an intensifier. A common example would be the a phrase 
 'little boy'. In this phrase there is a collocational restriction. 'little' does not 
 mean 'little' in sense of size/magnitude but means 'young'. The most robust way to 
 avoid incorrectly counting this as an intensifier would be to use semantic analysis 
@@ -71,7 +71,7 @@ Deintensifier + deintensifier + emotion:    3
 
 
 Important adjustment was to accomodate having stopword in the middle of the 
-trigram. In this case we've covered having articles or prepositions, for example,
+trigram. In this case we've covered having, for example, articles or prepositions
 in our emotional phrases, which turned out to make up more than half of all 
 trigrams. However, list of stopwords has been narrowed down to exclude any occuring
 ones within emotional lexicon. 
@@ -99,7 +99,7 @@ Deintensifier + stop word + emotion:   84
 
 
 In a long run, novelistic oeuvre of all three different authors tend to be quite
-similar. It was proven by running solution over complete collections of Charles 
+similar. It was proven by running solution over aggregated collections of Charles 
 Dickens, George Eliot and Elizabeth Gaskell novels. 
 
 Elizabeth Gaskell has slightly more use of 'anticipation' expressions and very 
