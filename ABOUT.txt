@@ -95,67 +95,57 @@ Elizabeth Gaskell has slightly more use of 'anticipation' expressions and of 'sa
 Charles Dickens has slightly more use of 'trust' expressions.
 George Eliot has slightly more use of 'anger' expressions.
 
-Comparison of charles_dickens_collection.txt and george_eliot_collection.txt:
-The text charles_dickens_collection.txt is more:
-        trust (+1.75%)
-        surprise (+0.19%)
-        "not trust" (+0.12%)
-        "not joy" (+0.12%)
-        "not anticipation" (+0.09%)
-        disgust (+0.09%)
-        "not surprise" (+0.05%)
-        joy (+0.04%)
-        "not fear" (+0.03%)
-        "not anger" (+0.02%)
-        "not sadness" (+0.01%)
-        "not disgust" (+0.00%)
+Stats for harles_dickens_collection.txt:
+Total weighted sum: 459645.5
 
-The text george_eliot_collection.txt is more:
-        anger (+1.06%)
-        sadness (+0.42%)
-        fear (+0.10%)
-        anticipation (+0.07%)
+emotion (count): %               not emotion (count): %
+anger        (37407): 8.1%       not anger        (1359): 0.3%
+anticipation (75873): 16.5%      not anticipation (1512): 0.3%
+disgust      (30770): 6.7%       not disgust      (775): 0.2%
+fear         (50954): 11.1%      not fear         (1564): 0.3%
+joy          (68898): 15.0%      not joy          (1022): 0.2%
+sadness      (50518): 11.0%      not sadness      (1603): 0.3%
+surprise     (37334): 8.1%       not surprise     (871): 0.2%
+trust        (97553): 21.2%      not trust        (1632): 0.4%
+
+Emotion percentages grouped by positive/neutral/negative
+positive     (166451): 36.2%     negated positive     (2654): 0.6%
+neutral      (113207): 24.6%     negated neutral      (2383): 0.5%
+negative     (169649): 36.9%     negated negative     (5301): 1.2%
 
 
-Comparison of charles_dickens_collection.txt and elizabeth_gaskell_collection.txt
-The text charles_dickens_collection.txt is more:
-        trust (+1.66%)
-        surprise (+0.67%)
-        disgust (+0.46%)
-        fear (+0.35%)
-        "not trust" (+0.06%)
-        "not anticipation" (+0.06%)
-        "not joy" (+0.06%)
-        "not sadness" (+0.05%)
-        "not disgust" (+0.02%)
-        "not surprise" (+0.01%)
-        "not fear" (+0.01%)
-        "not anger" (+0.01%)
+Stats for george_eliot_collection.txt:
+Total weighted sum: 252650.0
 
-The text elizabeth_gaskell_collection.txt is more:
-        anticipation (+1.47%)
-        sadness (+1.16%)
-        anger (+0.28%)
-        joy (+0.12%)
+emotion (count): %               not emotion (count): %
+anger        (23234): 9.2%       not anger        (790): 0.3%
+anticipation (41877): 16.6%      not anticipation (1063): 0.4%
+disgust      (16688): 6.6%       not disgust      (438): 0.2%
+fear         (28261): 11.2%      not fear         (945): 0.4%
+joy          (37779): 15.0%      not joy          (857): 0.3%
+sadness      (28830): 11.4%      not sadness      (846): 0.3%
+surprise     (20031): 7.9%       not surprise     (606): 0.2%
+trust        (49204): 19.5%      not trust        (1202): 0.5%
+
+Emotion percentages grouped by positive/neutral/negative
+positive     (86983): 34.4%      negated positive     (2059): 0.8%
+neutral      (61908): 24.5%      negated neutral      (1668): 0.7%
+negative     (97013): 38.4%      negated negative     (3019): 1.2%
 
 
-Comparison of george_eliot_collection.txt and elizabeth_gaskell_collection.txt
-The text george_eliot_collection.txt is more:
-        anger (+0.78%)
-        surprise (+0.48%)
-        fear (+0.45%)
-        disgust (+0.37%)
-        "not joy" (+0.06%)
-        "not trust" (+0.06%)
-        "not surprise" (+0.04%)
-        "not fear" (+0.04%)
-        "not sadness" (+0.04%)
-        "not anticipation" (+0.03%)
-        "not anger" (+0.02%)
-        "not disgust" (+0.02%)
+Stats for elizabeth_gaskell_collection.txt:
+Total weighted sum: 204084.25
+emotion (count): %               not emotion (count): %
+anger        (17184): 8.4%       not anger        (592): 0.3%
+anticipation (36691): 18.0%      not anticipation (794): 0.4%
+disgust      (12726): 6.2%       not disgust      (313): 0.2%
+fear         (21916): 10.7%      not fear         (680): 0.3%
+joy          (30833): 15.1%      not joy          (572): 0.3%
+sadness      (24798): 12.2%      not sadness      (600): 0.3%
+surprise     (15209): 7.5%       not surprise     (404): 0.2%
+trust        (39917): 19.6%      not trust        (856): 0.4%
 
-The text elizabeth_gaskell_collection.txt is more:
-        anticipation (+1.40%)
-        sadness (+0.74%)
-        joy (+0.15%)
-        trust (+0.08%)
+Emotion percentages grouped by positive/neutral/negative
+positive     (70750): 34.7%      negated positive     (1428): 0.7%
+neutral      (51900): 25.4%      negated neutral      (1198): 0.6%
+negative     (76623): 37.5%      negated negative     (2185): 1.1%
