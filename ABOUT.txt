@@ -25,16 +25,21 @@ python script itself.
 ### OBSERVATIONS ###
 
 Because some intensifier words have multiple meanings, it is not completely accurate
-to always count them as being an intensifier. A common example would be the phrase 'little boy'.
-In this phrase there is a collocational restriction. 'little' does not mean 'little' in sense of
-size/magnitude but means 'young'. The most robust way to avoid incorrectly counting this as an
-intensifier would be to use semantic analysis to disambiguate between the possible meanings of
-'little'. Another alternative would be to maintain a list of exceptions for 'little'. To keep our
-implementation simple, we chose not to implement either of these options.
+to always count them as being an intensifier. A common example would be the phrase 
+'little boy'. In this phrase there is a collocational restriction. 'little' does not 
+mean 'little' in sense of size/magnitude but means 'young'. The most robust way to 
+avoid incorrectly counting this as an intensifier would be to use semantic analysis 
+to disambiguate between the possible meanings of 'little'. Another alternative would 
+be to maintain a list of exceptions for 'little'. To keep our implementation simple,
+we chose not to implement either of these options.
 
-One of the findings suggests that
-generally intensifiers are much more common within text than deintensifiers. This may be because our 
-list of deintensifiers is incomplete, but we also observe that negations are also not so common compared
+
+----------------------
+
+
+One of the findings suggests that generally intensifiers are much more common 
+within text than deintensifiers. This may be because our list of deintensifiers 
+is incomplete, but we also observe that negations are also not so common compared
 to the unnegated forms with the same word. 
 
 charles_dickens_collection:
@@ -62,6 +67,9 @@ Intensifier   + intensifier   + emotion:   60
 Deintensifier + deintensifier + emotion:    3
 
 
+----------------------
+
+
 Important adjustment was to accomodate having stopword in the middle of the 
 trigram. In this case we've covered having articles or prepositions, for example,
 in our emotional phrases, which turned out to make up more than half of all 
@@ -87,9 +95,12 @@ Intensifier   + stop word + emotion:  498
 Deintensifier + stop word + emotion:   84 
 
 
+----------------------
+
+
 In a long run, novelistic oeuvre of two different authors tend to be quite
-similar. It was proven by running solution over complete collections of Charles Dickens and George
-Eliot novels. 
+similar. It was proven by running solution over complete collections of Charles Dickens 
+and George Eliot novels. 
 
 Elizabeth Gaskell has slightly more use of 'anticipation' expressions and of 'sadness'.
 Charles Dickens has slightly more use of 'trust' expressions.
