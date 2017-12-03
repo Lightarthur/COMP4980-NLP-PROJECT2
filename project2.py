@@ -424,14 +424,14 @@ def main():
         (unnegated_2, negated_2) = percentage_dict_2[e]
 
         if unnegated_1 > unnegated_2:
-            emotions_1.append((unnegated_1 - unnegated_2, '\t{:} (+{:.2f}%)'.format(emotion_name[e], unnegated_1 - unnegated_2)))
+            emotions_1.append(((unnegated_1 - unnegated_2) / unnegated_2 * 100, '\t{:} (+{:.2f}%)'.format(emotion_name[e], (unnegated_1 - unnegated_2) / unnegated_2 * 100)))
         elif unnegated_1 < unnegated_2:
-            emotions_2.append((unnegated_2 - unnegated_1, '\t{:} (+{:.2f}%)'.format(emotion_name[e], unnegated_2 - unnegated_1)))
+            emotions_2.append(((unnegated_2 - unnegated_1) / unnegated_1 * 100, '\t{:} (+{:.2f}%)'.format(emotion_name[e], (unnegated_2 - unnegated_1) / unnegated_1 * 100)))
 
         if negated_1 > negated_2:
-            emotions_1.append((negated_1 - negated_2, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e], negated_1 - negated_2)))
+            emotions_1.append(((negated_1 - negated_2) / negated_2 * 100, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e], (negated_1 - negated_2) / negated_2 * 100)))
         elif negated_1 < negated_2:
-            emotions_1.append((negated_2 - negated_1, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e], negated_2 - negated_1)))
+            emotions_1.append(((negated_2 - negated_1) / negated_1 * 100, '\t"not {:}" (+{:.2f}%)'.format(emotion_name[e],  (negated_2 - negated_1) / negated_1 * 100)))
 
     print('-----------------------------------------------------------------------------')
     print('Comparison of {} and {}'.format(user_path_1, user_path_2))

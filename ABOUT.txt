@@ -16,22 +16,26 @@ IMPORTANT: text files for all 8 emotions should be located in the same folder as
 python script itself.
 
 1) Run project2.py file
-2) Enter first text name/path on promt and hit Enter
-3) Enter second text name/path on promt and hit Enter
+2) Enter first text name/path on prompt and hit Enter
+3) Enter second text name/path on prompt and hit Enter
 4) Hit Enter to continue to second text's analysis
 5) Hit Enter to continue to comparison of both texts
 
 
 ### OBSERVATIONS ###
 
-    - counting pharases like "little boy" and "young girl" 
-Giving provided emotional lexicon, counting of phrases like "little boy" and 
-"young girl" occured. This phrases are rahter X than emotional phrases
+Because some intensifier words have multiple meanings, it is not completely accurate
+to always count them as being an intensifier. A common example would be the phrase 'little boy'.
+In this phrase there is a collocational restriction. 'little' does not mean 'little' in sense of
+size/magnitude but means 'young'. The most robust way to avoid incorrectly counting this as an
+intensifier would be to use semantic analysis to disambiguate between the possible meanings of
+'little'. Another alternative would be to maintain a list of exceptions for 'little'. To keep our
+implementation simple, we chose not to implement either of these options.
 
-
-    - intensifiers are much more popular than deintensifiers
-One of the findings suggests that generally intensifiers are much more common 
-within text than deintensifiers
+One of the findings suggests that
+generally intensifiers are much more common within text than deintensifiers. This may be because our 
+list of deintensifiers is incomplete, but we also observe that negations are also not so common compared
+to the unnegated forms with the same word. 
 
 charles_dickens_collection:
 Intensifier   + emotion:  8007
@@ -58,7 +62,6 @@ Intensifier   + intensifier   + emotion:   60
 Deintensifier + deintensifier + emotion:    3
 
 
-    - taking into account subset of stopwords within trigrams
 Important adjustment was to accomodate having stopword in the middle of the 
 trigram. In this case we've covered having articles or prepositions, for example,
 in our emotional phrases, which turned out to make up more than half of all 
@@ -84,10 +87,13 @@ Intensifier   + stop word + emotion:  498
 Deintensifier + stop word + emotion:   84 
 
 
-    - comparing the whole novelistic oeuvre of two authors
-In a long run, novelistic oeuvre of two different authors are tend to be quite
+In a long run, novelistic oeuvre of two different authors tend to be quite
 similar. It was proven by running solution over complete collections of Charles Dickens and George
-Eliot novels.
+Eliot novels. 
+
+Elizabeth Gaskell has slightly more use of 'anticipation' expressions and of 'sadness'.
+Charles Dickens has slightly more use of 'trust' expressions.
+George Eliot has slightly more use of 'anger' expressions.
 
 Comparison of charles_dickens_collection.txt and george_eliot_collection.txt:
 The text charles_dickens_collection.txt is more:
